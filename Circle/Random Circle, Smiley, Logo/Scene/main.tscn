@@ -133,7 +133,7 @@ margin_right = 554.0
 margin_bottom = 398.0
 custom_fonts/normal_font = SubResource( 12 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
-text = "Tekan salah satu dari ketiga button di bawah ini untuk melihat scene yang tersedia. Scene 1 adalah scene yang menampilkan hasil Random Line Generator. Scene 2 adalah scene yang menampilkan hasil update fungsi Line Generator. Scene 3 adalah scene yang menampilkan hasil fungsi shape berbahan dasar garis. "
+text = "Tekan salah satu dari ketiga button di bawah ini untuk melihat scene yang tersedia. Scene 1 adalah scene yang menampilkan hasil Random Circle Generator. Scene 2 adalah scene yang menampilkan fungsi Smiley.. Scene 3 adalah scene yang menampilkan logo dari func circle dan line."
 __meta__ = {
 "_edit_use_anchors_": false
 }

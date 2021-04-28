@@ -35,7 +35,7 @@ func put_pixel(x, y, color):
 
 func round(num):
 	return num + 0.5
-	
+
 
 func line_generator( xa,  ya,  xb,  yb, weight, gap, color ):
 
@@ -103,28 +103,6 @@ func line_generator( xa,  ya,  xb,  yb, weight, gap, color ):
 			k += 1
 
 
-func persegi_panjang( xa, ya, width, length, weight, gap, color ):
-	
-	# Illustration
-	# A-------------B
-	# |             |
-	# D-------------C
-	#
-	# A is ( xa, ya )
-	
-	# Draw an AD line
-	line_generator( xa, ya, xa, ya + width, weight, gap, color)
-	
-	# Draw a BC line
-	line_generator( xa + length, ya, xa + length, ya + width, weight, gap, color)
-	
-	# Draw an AB line
-	line_generator( xa, ya, xa + length, ya, weight, gap, color)
-	
-	# Draw a DC line
-	line_generator( xa, ya + width, xa + length, ya + width, weight, gap, color)
-
-
 func persegi ( xa, ya, side, weight, gap, color ):
 		
 	# Illustration
@@ -147,77 +125,73 @@ func persegi ( xa, ya, side, weight, gap, color ):
 	line_generator( xa, ya + side, xa + side, ya + side, weight, gap, color)
 
 
-func segitiga ( xa:float, ya:float, height:float, pedestal:float, weight, gap, color ):
-	#
-	# Illustration
-	# A
-	# | \
-	# |   \ 
-	# B----C
-	#
-	# A is ( xa, ya )
+func midpoint_circle( x_centre, y_centre, radius, color ):
+	var x = radius
+	var y = 0
 	
-	# Draw an AB line
-	line_generator( xa, ya, xa, ya + height, weight, gap, color )
+	# 0 degree
+	put_pixel( x + x_centre, y + y_centre, color )
+	# 180 degree
+	put_pixel( -x + x_centre, -y + y_centre, color )
+	# 270 degree
+	put_pixel( y + x_centre, x + y_centre, color )
+	# 90 degree
+	put_pixel( -y + x_centre, -x + y_centre, color )
 	
-	# Draw a BC line
-	line_generator( xa, ya + height, xa + pedestal, ya + height, weight, gap, color )
+	var p = 5/4 - radius
 	
-	# Draw an AC line
-	line_generator( xa, ya, xa + pedestal, ya + height, weight, gap, color )
+	while ( x > y ):
+		y += 1
+
+		if ( p <= 0 ):
+			p += 2 * y + 1
+
+		else:
+			x -= 1
+			p += 2 * y - 2 * x + 1
+		
+		put_pixel( x + x_centre, y + y_centre, color )
+		put_pixel( -x + x_centre, y + y_centre, color )
+		put_pixel( x + x_centre, -y + y_centre, color )
+		put_pixel( -x + x_centre, -y + y_centre, color )
+		
+		put_pixel( y + x_centre, x + y_centre, color )
+		put_pixel( -y + x_centre, x + y_centre, color )
+		put_pixel( y + x_centre, -x + y_centre, color )
+		put_pixel( -y + x_centre, -x + y_centre, color )
 
 
-func belah_ketupat ( xa:float, ya:float, d1:float, d2:float, weight, gap, color ):
+func draw_norton():
+	var gold = Color(0.99215686274, 0.7333333333, 0.18823529411)
+	# Circle
+	var x = 500.0
+	var y = 300.0
+	for r in range (100, 130):
+		midpoint_circle(x, y, r, gold)
 	
-	# Illustration 
-	#       A                           |
-	#     /   \                         |
-	#    B     D         -----d2----   d1
-	#     \   /                         |
-	#       C                           |
-	#
-	# A is ( xa, ya )
+	# Check Mark's addition
+	x = 587
+	y = 220
+	for i in 4:
+		
+		persegi(x , y, 6, 5, 0, gold)
+		
+		y -= 15
+		
+		if ( i % 2 == 0):
+			persegi(x + 5, y + 5, 6, 5, 0, Color.black)
+		else:
+			persegi(x - 5, y + 7, 6, 5, 0, Color.black)
+			
+		x += 15
 	
-	# Draw an AB line
-	line_generator( xa, ya, xa - (d2/2), ya + (d1/2), weight, gap, color)
-	
-	# Draw a BC line
-	line_generator( xa - (d2/2), ya + (d1/2), xa, ya + d1, weight, gap, color)
-	
-	# Draw a CD line
-	line_generator(xa, ya + d1, xa + (d2/2), ya + (d1/2), weight, gap, color)
-	
-	# Draw a DA line
-	line_generator(xa + (d2/2), ya + (d1/2), xa, ya, weight, gap, color)
-
-
-func trapesium ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
-	# Illustration
-	# 
-	# A----------D
-	# |          \
-	# B-----------C
-	#
-	# A is ( xa, ya )
-	
-	line_generator( xa, ya, xa, ya + height, weight, gap, color )
-	line_generator( xa, ya + height, xa + bot_length, ya + height, weight, gap, color )
-	line_generator( xa + bot_length, ya + height, xa + top_length, ya, weight, gap, color )
-	line_generator( xa + top_length, ya, xa, ya, weight, gap, color )
-	
-
-func jajar_genjang ( xa:float, ya:float, pedestal:float, height:float, shift:float, weight, gap, color ):
-	
-	line_generator( xa ,ya, xa - shift, ya + height, weight, gap, color )
-	line_generator( xa - shift, ya + height, xa + pedestal - shift, ya + height, weight, gap, color )
-	line_generator( xa + pedestal - shift, ya + height, xa + pedestal, ya, weight, gap, color )
-	line_generator( xa + pedestal, ya, xa, ya, weight, gap, color )
+	# Check Mark
+	x = 490.0 
+	y = 300.0
+	for _y in range(310, 350):
+		line_generator(x - 50, _y - 60, x, _y, 1, 0, Color.black)
+		line_generator(x, _y, x + 120, _y - 120, 1, 0, Color.black)
 
 
 func _draw():
-	persegi_panjang( 45, 100, 100, 200, 5, 0, Color.yellow )
-	persegi ( 280, 100 , 100, 4, 20, Color.cyan)
-	segitiga( 400.0, 100.0, 100.0, 50.0, 1, 0, Color.whitesmoke)
-	belah_ketupat(165, 250, 200, 100, 1, 0, Color.blueviolet)
-	trapesium( 250, 250, 50, 100, 100, 1, 10, Color.snow)
-	jajar_genjang( 400, 250, 200, 130, 20, 1, 0, Color.coral)
+	draw_norton()

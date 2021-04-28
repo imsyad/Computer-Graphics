@@ -41,9 +41,18 @@ func midpoint_circle( x_centre, y_centre, radius ):
 	var x = radius
 	var y = 0
 	
+	# 0 degree
+	put_pixel( x + x_centre, y + y_centre, Color.skyblue)
+	# 180 degree
+	put_pixel( -x + x_centre, -y + y_centre, Color.violet )
+	# 270 degree
+	put_pixel( y + x_centre, x + y_centre, Color.snow )
+	# 90 degree
+	put_pixel( -y + x_centre, -x + y_centre, Color.violet )
+	
 	var p = 5/4 - radius
 	
-	while ( x >= y ):
+	while ( x > y ):
 		y += 1
 
 		if ( p <= 0 ):
