@@ -101,34 +101,38 @@ func line_bresenham(
 		put_pixel( x, y, color )
 
 
+# Custom line drawing function
+# Include line's weight
+# Can add gap inside the line
 func custom_line( 
 	
-	start  :Vector2,  
-	end    :Vector2, 
-	weight :float,
-	color
+	start  :Vector2,             # Starting point
+	end    :Vector2,             # Ending point
+	weight :float,               # Line's weight
+	gap    :int,                 # Gap inside the line
+	color                        # Line's color
 	
 	):
 	
-	var dx      = end.x - start.x # Delta x 
-	var dy      = end.y - start.y   # Delta y
-	var k       = 0               # Counter for the number of repetitions remaining
+	var dx    = end.x - start.x  # Delta x
+	var dy    = end.y - start.y  # Delta y
+	var k     = 0                # Counter for the number of repetitions remaining
+	var steps                    # Line length
 	
 	
+	# Return nothing if dx and dy are 0
 	if dx == 0 and dy == 0:
 		return
 	
-	var steps                     # Line length
-	var x_increment               # Increment for x
-	var y_increment               # Increment for y
+	var x_increment              # Increment for point's absis
+	var y_increment              # Increment for point's ordinate
+	var x = start.x              # Point's absis
+	var y = start.y              # Point's ordinate
 	
-	var x       = start.x
-	var y       = start.y
+	var upper:Vector2            # For upper line's weight
+	var lower:Vector2            # For lower line's weight
 	
-	var upper:Vector2             # For upper line's weight
-	var lower:Vector2             # For lower line's weight
-	
-	weight      = weight/2
+	weight = weight/2            # Split into two side
 	
 	
 	# Condition for vertical line's weight value assignment
@@ -142,10 +146,9 @@ func custom_line(
 		
 		upper = Vector2( x, y + weight )
 		lower = Vector2( x, y - weight )
-
+	
 	# Condition for diagonal line's weight value assignment
 	else:
-		
 		var m  :float   = dy/dx
 		var m_p:float   = (-1) * ( 1/ m )
 		var temp        = weight / sqrt( 1 + pow ( m_p, 2 ) )
@@ -156,8 +159,8 @@ func custom_line(
 		var y_lower     = ( m_p * ( x_lower - x ) ) + y
 		var y_upper     = ( m_p * ( x_upper - x ) ) + y
 		
-		upper = Vector2( x_upper, y_upper )
-		lower = Vector2( x_lower, y_lower )
+		upper           = Vector2( x_upper, y_upper )
+		lower           = Vector2( x_lower, y_lower )
 	
 	
 	# Check if dx greater than dy
@@ -175,26 +178,38 @@ func custom_line(
 	x_increment = dx/steps
 	y_increment = dy/steps
 	
+	# Put starting point
+	put_pixel( round(x), round(y), color )
+	
 	
 	# Put point from starting point into ending point
 	# Repeitions as many as the length of the line
 	while ( k  < steps ):
-		
 		var x_add = x_increment
 		var y_add = y_increment
 		
-		# Increment the weight coordinate
-		upper.x   += x_add
-		upper.y   += y_add
+		upper.x += x_add
+		upper.y += y_add
 		
-		lower.x   += x_add
-		lower.y   += y_add
+		lower.x += x_add
+		lower.y += y_add
 		
-		# Increment k
+		# Check wether gap is greater than 0
+		if (gap > 0):
+			
+			# Draw a line only when k is in the odd multiple of the gap range 
+			if ((k / gap) % 2 == 0):
+				
+				# Draw the line
+				draw_weight( upper, lower, color)
+		
+		# No gap inside the lien
+		else:
+			
+			# Draw the line
+			draw_weight( upper, lower, color)
+		
 		k += 1
-		
-		# Draw the line's weight
-		draw_weight( upper, lower, color)
 
 
 func draw_weight(
@@ -203,12 +218,9 @@ func draw_weight(
 	end   :Vector2,
 	color
 	
-	):
-	
-	var dx      = end.x - start.x # Delta x 
-	var dy      = end.y - end.y   # Delta y
-	var x       = start.x
-	var y       = start.y
+):
+	var dx = end.x - start.x
+	var dy = end.y - start.y
 	
 	var steps
 	
@@ -224,18 +236,20 @@ func draw_weight(
 		# dy is now line's length
 		steps = abs (dy)
 	
+	var x = start.x
+	var y = start.y
 	
-	if (steps > 0):
-		# Assign value for increment x and y
+	# Put starting point
+	put_pixel( x, y, color )
+	
+	if ( steps > 0 ):
+		
 		var x_inc = dx/steps
 		var y_inc = dy/steps
 		
 		# Loop as much as steps(line'e length)
 		for i in steps:
-			# Increment x with x_inc
-			# Increment y with y_inc
 			x += x_inc
 			y += y_inc
 			
-			# Put the point
-			put_pixel(round(x), round(y), color)
+			put_pixel( round(x), round(y), color )
