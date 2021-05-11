@@ -218,7 +218,8 @@ func draw_weight(
 	end   :Vector2,
 	color
 	
-):
+	):
+	
 	var dx = end.x - start.x
 	var dy = end.y - start.y
 	
