@@ -111,7 +111,7 @@ func custom_line(
 	):
 	
 	var dx      = end.x - start.x # Delta x 
-	var dy      = end.y - end.y   # Delta y
+	var dy      = end.y - start.y   # Delta y
 	var k       = 0               # Counter for the number of repetitions remaining
 	
 	
