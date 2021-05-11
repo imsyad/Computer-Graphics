@@ -11,8 +11,8 @@ func line_dda(
 	
 	):
 	
-	var dx      = end.x - start.x # Delta x 
-	var dy      = end.y - end.y   # Delta y
+	var dx:float      = end.x - start.x # Delta x 
+	var dy:float      = end.y - start.y   # Delta y
 	var k       = 0               # Counter for the number of repetitions remaining
 	var x       = start.x
 	var y       = start.y
@@ -22,6 +22,9 @@ func line_dda(
 	var y_increment               # Increment for y
 	
 	
+	if abs(dx) == 0 and abs(dy) == 0:
+		return
+		
 	# Check if dx greater than dy
 	if( abs(dx) > abs(dy) ): 
 		# Assign dx to steps
