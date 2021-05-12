@@ -1,4 +1,4 @@
-extends put_pixel
+extends pixel
 
 class_name circle
 
