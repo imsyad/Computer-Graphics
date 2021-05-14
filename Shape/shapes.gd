@@ -275,29 +275,32 @@ func draw_equilateral_triangle(
 		# Draw the line
 		custom_line(a, b, weight, gap, color)
 
-
-func equilateral_triangle_without_pedestal(
-
+# Function draw triangle for draw_rhombus function
+# This function draw equilateral triangle without the pedestal
+func equilateral_triangle_for_rhombus(
+	
 	centre:Vector2,
 	pedestal,
 	gap,
-	weight,
-	rotation_degree,
-	rhombus_rotation_degree,
-	rhombus_centre,
+	weight,                     # Line weight
+	rotation_degree,            # Rotation degree for the equilateral triangle
+	rhombus_rotation_degree,    # Rotation degree for the rhombus formed 
+	rhombus_centre,             # Centre of the rhombus formed
 	color
 	
 	):
 	
-	var a_2
-	var b_2
+	var a    # Starting point of first line
+	var b    # Ending point of first line
+	var _a   # Starting point of second line
+	var _b   # Ending point of second line
 		
 	# Initialize first dot
-	var a = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6))
+	a = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6))
 	
 	# Rotate a with 120 degree to get point b
 	# Rotate inside initialization in order not to change the value of point a
-	var b = Vector2(rotasi(centre, a, 120).x, rotasi(centre, a, 120).y)
+	b = Vector2(rotasi(centre, a, 120).x, rotasi(centre, a, 120).y)
 	
 	# Rotate a with 0 + degree
 	# degree can be 0
@@ -307,33 +310,33 @@ func equilateral_triangle_without_pedestal(
 	# degree can be 0
 	b = rotasi(centre, b, rotation_degree)
 	
-	a_2 = rotasi (centre, a, 240)
-	b_2 = rotasi (centre, b, 240)
+	_a = rotasi (centre, a, 240)
+	_b = rotasi (centre, b, 240)
 	
+	# Rotate the the first line if there is rotation on rhombus
 	a = rotasi(rhombus_centre, a, rhombus_rotation_degree)
 	b = rotasi(rhombus_centre, b, rhombus_rotation_degree)
 	
+	# Rotate the the second line if there is rotation on rhombus
+	_a = rotasi(rhombus_centre, _a, rhombus_rotation_degree)
+	_b = rotasi(rhombus_centre, _b, rhombus_rotation_degree)
+	
 	# Draw the line
 	custom_line(a, b, weight, gap, color)
-	
-	
-	# Rotate point a and b with 120
-	
-	a_2 = rotasi(rhombus_centre, a_2, rhombus_rotation_degree)
-	b_2 = rotasi(rhombus_centre, b_2, rhombus_rotation_degree)
-	
-	# Draw the line
-	custom_line(a_2, b_2, weight, gap, color)
+	custom_line(_a, _b, weight, gap, color)
 
 
 func draw_rhombus(
+	
 	centre:Vector2,
 	pedestal,
 	gap,
 	weight,
 	rotation_degree,
 	color
+	
 	):
+	
 	# Shift ordinate upward for upper equilateral triangle 
 	var upper_centre = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6)/2)
 	
@@ -341,8 +344,8 @@ func draw_rhombus(
 	var lower_centre = Vector2(centre.x, centre.y + ((pedestal * sqrt(3))/6)/2)
 	
 	# Draw upper and lower equilateral triangle 
-	equilateral_triangle_without_pedestal(upper_centre, pedestal, gap, weight, 0, rotation_degree, centre, color)
-	equilateral_triangle_without_pedestal(lower_centre, pedestal, gap, weight, 180, rotation_degree, centre, color)
+	equilateral_triangle_for_rhombus(upper_centre, pedestal, gap, weight, 0, rotation_degree, centre, color)
+	equilateral_triangle_for_rhombus(lower_centre, pedestal, gap, weight, 180, rotation_degree, centre, color)
 
 
 #func draw_trapezoid ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
