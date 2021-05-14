@@ -283,9 +283,15 @@ func equilateral_triangle_without_pedestal(
 	gap,
 	weight,
 	rotation_degree,
+	rhombus_rotation_degree,
+	rhombus_centre,
 	color
 	
 	):
+	
+	var a_2
+	var b_2
+		
 	# Initialize first dot
 	var a = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6))
 	
@@ -301,15 +307,23 @@ func equilateral_triangle_without_pedestal(
 	# degree can be 0
 	b = rotasi(centre, b, rotation_degree)
 	
+	a_2 = rotasi (centre, a, 240)
+	b_2 = rotasi (centre, b, 240)
+	
+	a = rotasi(rhombus_centre, a, rhombus_rotation_degree)
+	b = rotasi(rhombus_centre, b, rhombus_rotation_degree)
+	
 	# Draw the line
 	custom_line(a, b, weight, gap, color)
+	
 	
 	# Rotate point a and b with 120
-	a = rotasi (centre, a, 240)
-	b = rotasi (centre, b, 240)
+	
+	a_2 = rotasi(rhombus_centre, a_2, rhombus_rotation_degree)
+	b_2 = rotasi(rhombus_centre, b_2, rhombus_rotation_degree)
 	
 	# Draw the line
-	custom_line(a, b, weight, gap, color)
+	custom_line(a_2, b_2, weight, gap, color)
 
 
 func draw_rhombus(
@@ -327,8 +341,8 @@ func draw_rhombus(
 	var lower_centre = Vector2(centre.x, centre.y + ((pedestal * sqrt(3))/6)/2)
 	
 	# Draw upper and lower equilateral triangle 
-	equilateral_triangle_without_pedestal(upper_centre, pedestal, gap, weight, 0 + rotation_degree, color)
-	equilateral_triangle_without_pedestal(lower_centre, pedestal, gap, weight, 180 + rotation_degree, color)
+	equilateral_triangle_without_pedestal(upper_centre, pedestal, gap, weight, 0, rotation_degree, centre, color)
+	equilateral_triangle_without_pedestal(lower_centre, pedestal, gap, weight, 180, rotation_degree, centre, color)
 
 
 #func draw_trapezoid ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
