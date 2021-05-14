@@ -3,7 +3,7 @@ extends lines
 class_name shapes
 
 
-func midpoint_circle ( 
+func midpoint_circle( 
 	
 	centre:Vector2,     # Centre point of circle
 	radius              # Circle's radius
@@ -46,7 +46,7 @@ func midpoint_circle (
 		put_pixel(-y + centre.x, -x + centre.y, Color.skyblue) 
 
 
-func midpoint_ellipse (
+func midpoint_ellipse(
 
 	rx,
 	ry, 
@@ -144,7 +144,7 @@ func midpoint_ellipse (
 			d2 += dx - dy + (rx * rx)
 
 
-func persegi(
+func draw_square(
 	
 	centre :Vector2,
 	side,
@@ -183,8 +183,7 @@ func persegi(
 		weight, gap, color)
 
 
-
-func persegi_panjang( 
+func draw_rectangle( 
 	
 	start :Vector2, 
 	end   :Vector2, 
@@ -235,54 +234,104 @@ func persegi_panjang(
 		rotasi(centre, Vector2(end.x, start.y), rotation_degree),
 		rotasi(centre, Vector2(start.x, start.y), rotation_degree),
 		weight, gap, color)
+
+
+func draw_equilateral_triangle(
 	
+	centre:Vector2,
+	pedestal,
+	gap,
+	weight,
+	rotation_degree,
+	color
+	
+	):
+	# Initialize first dot
+	var a = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6))
+	
+	# Rotate a with 120 degree to get point b
+	# Rotate inside initialization in order not to change the value of point a
+	var b = Vector2(rotasi(centre, a, 120).x, rotasi(centre, a, 120).y)
+	
+	# Rotate a with 0 + degree
+	# degree can be 0
+	a = rotasi(centre, a, rotation_degree)
+	
+	# Rotate a with 0 + degree
+	# degree can be 0
+	b = rotasi(centre, b, rotation_degree)
+	
+	# Draw the line
+	custom_line(a, b, weight, gap, color)
+	
+	
+	for i in 2:
+	# Repeat the following process twice
+	
+		# Rotate point a and b with 120
+		a = rotasi (centre, a, 120)
+		b = rotasi (centre, b, 120)
+		
+		# Draw the line
+		custom_line(a, b, weight, gap, color)
 
 
-#func segitiga ( xa:float, ya:float, height:float, pedestal:float, weight, gap, color ):
-#	#
-#	# Illustration
-#	# A
-#	# | \
-#	# |   \ 
-#	# B----C
-#	#
-#	# A is ( xa, ya )
-#
-#	# Draw an AB line
-#	line_generator( xa, ya, xa, ya + height, weight, gap, color )
-#
-#	# Draw a BC line
-#	line_generator( xa, ya + height, xa + pedestal, ya + height, weight, gap, color )
-#
-#	# Draw an AC line
-#	line_generator( xa, ya, xa + pedestal, ya + height, weight, gap, color )
-#
-#
-#func belah_ketupat ( xa:float, ya:float, d1:float, d2:float, weight, gap, color ):
-#
-#	# Illustration 
-#	#       A                           |
-#	#     /   \                         |
-#	#    B     D         -----d2----   d1
-#	#     \   /                         |
-#	#       C                           |
-#	#
-#	# A is ( xa, ya )
-#
-#	# Draw an AB line
-#	line_generator( xa, ya, xa - (d2/2), ya + (d1/2), weight, gap, color)
-#
-#	# Draw a BC line
-#	line_generator( xa - (d2/2), ya + (d1/2), xa, ya + d1, weight, gap, color)
-#
-#	# Draw a CD line
-#	line_generator(xa, ya + d1, xa + (d2/2), ya + (d1/2), weight, gap, color)
-#
-#	# Draw a DA line
-#	line_generator(xa + (d2/2), ya + (d1/2), xa, ya, weight, gap, color)
-#
-#
-#func trapesium ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
+func equilateral_triangle_without_pedestal(
+
+	centre:Vector2,
+	pedestal,
+	gap,
+	weight,
+	rotation_degree,
+	color
+	
+	):
+	# Initialize first dot
+	var a = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6))
+	
+	# Rotate a with 120 degree to get point b
+	# Rotate inside initialization in order not to change the value of point a
+	var b = Vector2(rotasi(centre, a, 120).x, rotasi(centre, a, 120).y)
+	
+	# Rotate a with 0 + degree
+	# degree can be 0
+	a = rotasi(centre, a, rotation_degree)
+	
+	# Rotate a with 0 + degree
+	# degree can be 0
+	b = rotasi(centre, b, rotation_degree)
+	
+	# Draw the line
+	custom_line(a, b, weight, gap, color)
+	
+	# Rotate point a and b with 120
+	a = rotasi (centre, a, 240)
+	b = rotasi (centre, b, 240)
+	
+	# Draw the line
+	custom_line(a, b, weight, gap, color)
+
+
+func draw_rhombus(
+	centre:Vector2,
+	pedestal,
+	gap,
+	weight,
+	rotation_degree,
+	color
+	):
+	# Shift ordinate upward for upper equilateral triangle 
+	var upper_centre = Vector2(centre.x, centre.y - ((pedestal * sqrt(3))/6)/2)
+	
+	# Shift ordinate downward for lower equilateral triangle
+	var lower_centre = Vector2(centre.x, centre.y + ((pedestal * sqrt(3))/6)/2)
+	
+	# Draw upper and lower equilateral triangle 
+	equilateral_triangle_without_pedestal(upper_centre, pedestal, gap, weight, 0 + rotation_degree, color)
+	equilateral_triangle_without_pedestal(lower_centre, pedestal, gap, weight, 180 + rotation_degree, color)
+
+
+#func draw_trapezoid ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
 #	# Illustration
 #	# 
 #	# A----------D
@@ -297,7 +346,7 @@ func persegi_panjang(
 #	line_generator( xa + top_length, ya, xa, ya, weight, gap, color )
 #
 #
-#func jajar_genjang ( xa:float, ya:float, pedestal:float, height:float, shift:float, weight, gap, color ):
+#func draw_parallelogram ( xa:float, ya:float, pedestal:float, height:float, shift:float, weight, gap, color ):
 #
 #	line_generator( xa ,ya, xa - shift, ya + height, weight, gap, color )
 #	line_generator( xa - shift, ya + height, xa + pedestal - shift, ya + height, weight, gap, color )
