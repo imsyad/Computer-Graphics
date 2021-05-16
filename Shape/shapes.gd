@@ -3,7 +3,7 @@ extends lines
 class_name shapes
 
 
-func midpoint_circle( 
+func draw_midpoint_circle( 
 	
 	centre:Vector2,     # Centre point of circle
 	radius              # Circle's radius
@@ -46,15 +46,16 @@ func midpoint_circle(
 		put_pixel(-y + centre.x, -x + centre.y, Color.skyblue) 
 
 
-func midpoint_ellipse(
+func draw_midpoint_ellipse(
 
 	rx,
-	ry, 
+	ry,
+	part  :String,
 	centre:Vector2, 
 	degree
-
+	
 	):
-
+	
 	var dx:float
 	var dy:float
 	var d1:float
@@ -62,9 +63,21 @@ func midpoint_ellipse(
 	var x:float
 	var y:float
 	
+	var part_to_be_drawn
+	
+	match part:
+		"quarter":
+			part_to_be_drawn = 1
+		"half":
+			part_to_be_drawn = 2
+		"three quarter":
+			part_to_be_drawn = 3
+		_:
+			part_to_be_drawn = 0
+	
 	x = 0
 	y = ry
-		
+	
 	# initial decision parameter of region 1
 	# ry^2 - rx^2ry + 1/4 rx^2
 	d1 = ( ry * ry ) - ( rx * rx * ry ) + (0.25 * rx * rx)
@@ -73,25 +86,29 @@ func midpoint_ellipse(
 	
 	# for region 1
 	while ( dx < dy ):
-		put_pixel( 
-			rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).x, 
-			rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).y, 
-			Color.crimson )
+		if part_to_be_drawn > 3 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).x, 
+				rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).y, 
+				Color.cornflower )
+			
+		if part_to_be_drawn > 2 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).x, 
+				rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).y, 
+				Color.crimson )
 		
-		put_pixel( 
-			rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).x, 
-			rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).y, 
-			Color.cornflower )
+		if part_to_be_drawn > 1 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).x, 
+				rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).y, 
+				Color.yellow )
 		
-		put_pixel( 
-			rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).x, 
-			rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).y, 
-			Color.yellow )
-		
-		put_pixel( 
-			rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).x, 
-			rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).y, 
-			Color.springgreen )
+		if part_to_be_drawn >= 0:
+			put_pixel( 
+				rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).x, 
+				rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).y, 
+				Color.springgreen )
 		
 		if ( d1 < 0 ):
 			x += 1
@@ -110,25 +127,30 @@ func midpoint_ellipse(
 	
 	# plotting for region 2
 	while ( y >= 0 ):
-		put_pixel( 
-			rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).x, 
-			rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).y, 
-			Color.crimson )
-			
-		put_pixel( 
-			rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).x, 
-			rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).y, 
-			Color.cornflower )
-			
-		put_pixel( 
-			rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).x, 
-			rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).y, 
-			Color.yellow )
-						
-		put_pixel( 
-			rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).x, 
-			rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).y, 
-			Color.springgreen )
+		
+		if part_to_be_drawn > 3 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).x, 
+				rotasi(centre, Vector2(-x + centre.x, y + centre.y), degree).y, 
+				Color.cornflower )
+		
+		if part_to_be_drawn > 2 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).x, 
+				rotasi(centre, Vector2(x + centre.x, y + centre.y), degree).y, 
+				Color.crimson )
+		
+		if part_to_be_drawn > 1 or part_to_be_drawn == 0:
+			put_pixel( 
+				rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).x, 
+				rotasi(centre, Vector2(x + centre.x, -y + centre.y), degree).y, 
+				Color.yellow )
+		
+		if part_to_be_drawn >=0:
+			put_pixel( 
+				rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).x, 
+				rotasi(centre, Vector2(-x + centre.x, -y + centre.y), degree).y, 
+				Color.springgreen )
 						
 		
 		if ( d2 > 0 ):
@@ -275,6 +297,7 @@ func draw_equilateral_triangle(
 		# Draw the line
 		custom_line(a, b, weight, gap, color)
 
+
 # Function draw triangle for draw_rhombus function
 # This function draw equilateral triangle without the pedestal
 func equilateral_triangle_for_rhombus(
@@ -348,7 +371,8 @@ func draw_rhombus(
 	equilateral_triangle_for_rhombus(lower_centre, pedestal, gap, weight, 180, rotation_degree, centre, color)
 
 
-#func draw_trapezoid ( xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
+#func draw_trapezoid ( 
+#	xa:float, ya:float, top_length:float, bot_length:float, height:float, weight, gap, color ):
 #	# Illustration
 #	# 
 #	# A----------D
@@ -357,6 +381,7 @@ func draw_rhombus(
 #	#
 #	# A is ( xa, ya )
 #
+#	custom_line()
 #	line_generator( xa, ya, xa, ya + height, weight, gap, color )
 #	line_generator( xa, ya + height, xa + bot_length, ya + height, weight, gap, color )
 #	line_generator( xa + bot_length, ya + height, xa + top_length, ya, weight, gap, color )
