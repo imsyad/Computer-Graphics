@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "shapes",
+"class": "kamon",
+"language": "GDScript",
+"path": "res://kamon.gd"
+}, {
+"base": "pixel",
+"class": "lines",
+"language": "GDScript",
+"path": "res://script/Line/lines.gd"
+}, {
+"base": "Node2D",
+"class": "pixel",
+"language": "GDScript",
+"path": "res://script/Pixel/put_pixel.gd"
+}, {
+"base": "lines",
+"class": "shapes",
+"language": "GDScript",
+"path": "res://script/Shape/shapes.gd"
+} ]
+_global_script_class_icons={
+"kamon": "",
+"lines": "",
+"pixel": "",
+"shapes": ""
+}
+
+[application]
+
+config/name="ETS"
+config/icon="res://icon.png"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
