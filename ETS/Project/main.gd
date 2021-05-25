@@ -1,25 +1,33 @@
 extends kamon
 
-var time = 0
-
+var time:int = 0
+var gg:int = 0
+onready var timer = get_node("Timer")
 
 func _ready():
 	OS.window_resizable = false
+	timer.start()
+	
 
-func _process(delta):
-	time += 2 * delta
+func _on_Timer_timeout():
+	time += 1
 	update()
 
 
+
 func _draw():
-	var i = 50 
-	var j = 50
+	var rad = 50
+	var i = rad
+	var j = -rad
+	var starting_point = Vector2(i, j + time)
 	
-	while i < OS.window_size.x:
-		while j < OS.window_size.y:
-			kamon(Vector2(i, j), j/10, Color(0.83137, 0.8, 0.6352941176), time)
-			kamon(Vector2(i, j + 50), j/10, Color(0.83137, 0.8, 0.6352941176), time)
-			i += OS.window_size.x/10
-			j += OS.window_size.y/10
-		
+	var color = Color(0.83137, 0.8, 0.6352941176)
+	kamon(starting_point, rad, color, time)
+	
+	if (starting_point.y - rad) > OS.get_window_size().y:
+		time = 0
+	
+
+
+
 
