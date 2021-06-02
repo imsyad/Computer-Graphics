@@ -24,7 +24,7 @@ func kelopak_kamon(pusat_kamon, pusat_kelopak, rx, ry, warna, derajat_rotasi):
 
 
 func lingkaran_kamon(centre: Vector2,radius,color):
-	draw_circle(centre, radius + radius/7, Color(0.7294117647, 0.70196078431, 0.55294117647))
+	draw_circle(centre, radius + radius/7, Color.thistle)
 	draw_circle(centre, radius, color)
 
 
@@ -37,8 +37,6 @@ func draw_kamon(centre: Vector2,radius, derajat_rotasi):
 	var radius_lingkaran_dalam = radius/10
 	var radius_lingkaran_luar  = radius - radius/10
 	var radius_kelopak         = (radius - radius/5)/2
-#	var warna                  = Color(0.83137254902, 0.8, 0.63529411764)
-#	var warna_outline          = Color(0.7294117647, 0.70196078431, 0.55294117647)
 	var warna = Color.white
 	var warna_outline = Color.white
 	
