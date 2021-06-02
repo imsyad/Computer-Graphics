@@ -20,16 +20,6 @@ _global_script_classes=[ {
 "path": "res://kamon.gd"
 }, {
 "base": "Node2D",
-"class": "pixel",
-"language": "GDScript",
-"path": "res://put_pixel.gd"
-}, {
-"base": "lines",
-"class": "shapes",
-"language": "GDScript",
-"path": "res://shapes.gd"
-}, {
-"base": "Node2D",
 "class": "utilitas",
 "language": "GDScript",
 "path": "res://utilitas.gd"
@@ -37,8 +27,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ellipse": "",
 "kamon": "",
-"pixel": "",
-"shapes": "",
 "utilitas": ""
 }
 

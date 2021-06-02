@@ -37,10 +37,12 @@ func draw_kamon(centre: Vector2,radius, derajat_rotasi):
 	var radius_lingkaran_dalam = radius/10
 	var radius_lingkaran_luar  = radius - radius/10
 	var radius_kelopak         = (radius - radius/5)/2
-	var warna                  = Color(0.83137254902, 0.8, 0.63529411764)
-	var warna_outline          = Color(0.7294117647, 0.70196078431, 0.55294117647)
+#	var warna                  = Color(0.83137254902, 0.8, 0.63529411764)
+#	var warna_outline          = Color(0.7294117647, 0.70196078431, 0.55294117647)
+	var warna = Color.white
+	var warna_outline = Color.white
 	
-	dasar_kamon        (centre, radius_lingkaran_luar, Color(0,0,0,0))
+	dasar_kamon        (centre, radius_lingkaran_luar, Color(0,0,0,1))
 	kelopak_kamon      (centre, pusat_kelopak, radius/5, radius_kelopak, warna, derajat_rotasi)
 	outline_kamon      (centre, radius, warna_outline)
 	lingkaran_kamon    (centre, radius_lingkaran_dalam, warna)
