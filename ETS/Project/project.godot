@@ -12,17 +12,17 @@ _global_script_classes=[ {
 "base": "utilitas",
 "class": "ellipse",
 "language": "GDScript",
-"path": "res://ellipse.gd"
+"path": "res://Code/ellipse.gd"
 }, {
 "base": "ellipse",
 "class": "kamon",
 "language": "GDScript",
-"path": "res://kamon.gd"
+"path": "res://Code/kamon.gd"
 }, {
 "base": "Node2D",
 "class": "utilitas",
 "language": "GDScript",
-"path": "res://utilitas.gd"
+"path": "res://Code/utilitas.gd"
 } ]
 _global_script_class_icons={
 "ellipse": "",
@@ -32,7 +32,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="ETS"
+config/name="Irsyad-Muhammad_ETS"
+run/main_scene="res://animasi.tscn"
 config/icon="res://icon.png"
 
 [rendering]
